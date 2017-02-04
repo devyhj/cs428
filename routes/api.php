@@ -22,10 +22,10 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [], function($api){
-	$api->get('/', function () {
-		return response()->json([
-		    'route' => 'index',
-		    'message' => 'Hello'
-		]);
-	});
+	$api->get('users/{id}', ['as' => 'users.index', 'uses' => 'App\Http\Controllers\UserController@show']);
+	$api->get('restaurants/{id}', ['as' => 'restaurnats.index', 'uses' => 'App\Http\Controllers\RestaurantController@show']);
+	$api->get('menus/{id}', ['as' => 'menus.index', 'uses' => 'App\Http\Controllers\MenuController@show']);
+	$api->get('orders/{id}', ['as' => 'orders.index', 'uses' => 'App\Http\Controllers\OrderController@show']);
+	$api->get('visits/{id}', ['as' => 'visits.index', 'uses' => 'App\Http\Controllers\VisitController@show']);
+	$api->get('messages/{id}', ['as' => 'messages.index', 'uses' => 'App\Http\Controllers\MessageController@show']);
 });

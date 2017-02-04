@@ -22,4 +22,9 @@ class Restaurant extends Model
     {	
         return $this->hasMany('App\Visit');
     }
+
+    public function menus()
+    {
+        return $this->hasMany('App\Menu');
+    }
 }

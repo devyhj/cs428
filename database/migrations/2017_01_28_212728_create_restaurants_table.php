@@ -17,7 +17,7 @@ class CreateRestaurantsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
-            $table->string('addres_line1');
+            $table->string('address_line1');
             $table->string('address_line2')->nullable();
             $table->string('city');
             $table->string('state');

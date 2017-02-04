@@ -17,7 +17,7 @@ class CreateVisitsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->datetime('start_time');
-            $table->datetime('end_time')->nullabe();
+            $table->datetime('end_time')->nullable();
             $table->integer('user_id')->unsigned();
             $table->integer('restaurant_id')->unsigned();
 

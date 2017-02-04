@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
-    protected $table = 'menues';
+    protected $table = 'menus';
 
     public function restaurant()
     {	
@@ -15,6 +15,6 @@ class Menu extends Model
 
     public function orders()
     {	
-        return $this->hasMany('App\Orders');
+        return $this->hasMany('App\Order');
     }
 }
