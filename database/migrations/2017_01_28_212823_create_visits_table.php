@@ -21,8 +21,8 @@ class CreateVisitsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('restaurant_id')->unsigned();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

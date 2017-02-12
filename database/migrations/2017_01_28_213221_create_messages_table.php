@@ -20,7 +20,7 @@ class CreateMessagesTable extends Migration
             $table->integer('visit_id')->unsigned();
             $table->timestamps();
             
-            $table->foreign('visit_id')->references('id')->on('visits');
+            $table->foreign('visit_id')->references('id')->on('visits')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

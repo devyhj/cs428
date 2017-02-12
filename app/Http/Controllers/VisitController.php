@@ -4,30 +4,56 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Visit;
+use App\Restaurant;
+use App\User;
+use Carbon\Carbon;
 
 class VisitController extends Controller
 {
     /**
+     * @SWG\Get(
+     *   path="/visits",
+     *   summary="Get all visits",
+     *   operationId="GetAllVisits",
+     *   tags={"Visits"},
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return Visit::all();
     }
 
+
     /**
-     * Show the form for creating a new resource.
+     * @SWG\Post(
+     *   path="/visits",
+     *   summary="Save a visit",
+     *   operationId="SaveVisit",
+     *   tags={"Visits"},
+     *   @SWG\Parameter(
+     *     name="user_id",
+     *     in="formData",
+     *     description="Visitor's user id",
+     *     required=true,
+     *     type="number"
+     *   ),
+     *   @SWG\Parameter(
+     *     name="restaurant_id",
+     *     in="formData",
+     *     description="Visited restaurant id",
+     *     required=true,
+     *     type="number"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,10 +61,37 @@ class VisitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::findOrFail($request->user_id);
+        $restaurant = Restaurant::findOrFail($request->restaurant_id);
+        $visit = new Visit;
+
+        $visit->start_time = Carbon::now()->toDateTimeString();
+        $visit->user()->associate($user);
+        $visit->restaurant()->associate($restaurant);
+
+        $visit->save();
+
+        return $visit;
     }
 
     /**
+     * @SWG\Get(
+     *   path="/visits/{visitId}",
+     *   summary="Get a visit",
+     *   operationId="GetVisit",
+     *   tags={"Visits"},
+     *   @SWG\Parameter(
+     *     name="visitId",
+     *     in="path",
+     *     description="Visit id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     *
      * Display the specified resource.
      *
      * @param  int  $id
@@ -46,21 +99,25 @@ class VisitController extends Controller
      */
     public function show($id)
     {
-        return Visit::find($id);
+        return Visit::findOrFail($id);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
+     * @SWG\Put(
+     *   path="/visits/{visitId}",
+     *   summary="End visit",
+     *   operationId="EndVisit",
+     *   tags={"Visits"},
+     *   @SWG\Parameter(
+     *     name="visitId",
+     *     in="path",
+     *     description="Visit Id",
+     *     required=true,
+     *     type="number"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -69,10 +126,29 @@ class VisitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $thisVisit = Visit::findOrFail($id);
+        $thisVisit->end_time = Carbon::now()->toDateTimeString();
+        $thisVisit->save();
+        return $thisVisit;
     }
 
     /**
+     * @SWG\Delete(
+     *   path="/visits/{visitId}",
+     *   summary="Delete a visit",
+     *   operationId="DeleteVisit",
+     *   tags={"Visits"},
+     *   @SWG\Parameter(
+     *     name="visitId",
+     *     in="path",
+     *     description="Visit id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -80,6 +156,8 @@ class VisitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $thisVisit = Visit::findOrFail($id);
+        $thisVisit->delete();
+        return;
     }
 }

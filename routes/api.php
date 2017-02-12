@@ -22,10 +22,10 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [], function($api){
-	$api->get('users/{id}', ['as' => 'users.index', 'uses' => 'App\Http\Controllers\UserController@show']);
-	$api->get('restaurants/{id}', ['as' => 'restaurnats.index', 'uses' => 'App\Http\Controllers\RestaurantController@show']);
-	$api->get('menus/{id}', ['as' => 'menus.index', 'uses' => 'App\Http\Controllers\MenuController@show']);
-	$api->get('orders/{id}', ['as' => 'orders.index', 'uses' => 'App\Http\Controllers\OrderController@show']);
-	$api->get('visits/{id}', ['as' => 'visits.index', 'uses' => 'App\Http\Controllers\VisitController@show']);
-	$api->get('messages/{id}', ['as' => 'messages.index', 'uses' => 'App\Http\Controllers\MessageController@show']);
+	$api->resource('users', 'App\Http\Controllers\UserController');
+	$api->resource('restaurants', 'App\Http\Controllers\RestaurantController');
+	$api->resource('menus', 'App\Http\Controllers\MenuController');
+	$api->resource('orders', 'App\Http\Controllers\OrderController', ['except' => ['update']]);
+	$api->resource('visits', 'App\Http\Controllers\VisitController');
+	$api->resource('messages', 'App\Http\Controllers\MessageController', ['except' => ['update']]);
 });

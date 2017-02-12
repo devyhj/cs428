@@ -22,8 +22,8 @@ class CreateOrdersTable extends Migration
             $table->integer('menu_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('visit_id')->references('id')->on('visits');
-            $table->foreign('menu_id')->references('id')->on('menus');
+            $table->foreign('visit_id')->references('id')->on('visits')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('menu_id')->references('id')->on('menus')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

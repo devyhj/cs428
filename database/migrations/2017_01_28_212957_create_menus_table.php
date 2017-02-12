@@ -21,7 +21,7 @@ class CreateMenusTable extends Migration
             $table->decimal('price', 5, 2);
             $table->integer('restaurant_id')->unsigned();
             $table->timestamps();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
