@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
  *
  * @SWG\Swagger(
  *     basePath="/api",
- *     host="localhost",
  *     schemes={"http"},
  *     @SWG\Info(
  *         version="1.0",
