@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Restaurant;
+use App\MenuCategory;
 use App\Menu;
 
 class MenusTableSeeder extends Seeder
@@ -13,17 +13,17 @@ class MenusTableSeeder extends Seeder
      */
     public function run()
     {
-        $restaurants = Restaurant::all();
+        $menucategories = MenuCategory::all();
         $faker = Faker\Factory::create();
 
-        foreach($restaurants as $restaurant)
+        foreach($menucategories as $menucategory)
         {
         	for($i = 0; $i < 10; $i++)
         	{
-	        	$restaurant->menus()->create([
+	        	$menucategory->menus()->create([
 	        		'name' => $faker->word,
-	        		'description' => $faker->sentence,
-	        		'price' => $faker->randomFloat(2, 0, 30)
+                    'description' => $faker->sentence,
+                    'price' => $faker->randomFloat(2, 0, 30)
 	        	]);
 	        }
         }

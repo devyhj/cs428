@@ -15,13 +15,13 @@ class OrdersTableSeeder extends Seeder
     public function run()
     {
     	$faker = Faker\Factory::create();
-        $visits = Visit::with('restaurant.menus')->get();
+        $visits = Visit::with('restaurant.menuCategories.menus')->get();
         foreach($visits as $visit)
         {
         	$orderCount = $faker->numberBetween(1, 5);
         	for($i = 0; $i < $orderCount; $i++)
         	{
-	        	$availableMenu = $visit->restaurant->first()->menus;
+	        	$availableMenu = $visit->restaurant->first()->menuCategories->random()->menus;
 	        	$thisMenu = $availableMenu->random();
 	        	$thisOrder = new Order;
 	        	$thisOrder->special_request = $faker->sentence;

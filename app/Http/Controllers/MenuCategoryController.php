@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Menu;
 use App\MenuCategory;
+use App\Restaurant;
 
-
-
-class MenuController extends Controller
+class MenuCategoryController extends Controller
 {
-
     /**
      * @SWG\Get(
-     *   path="/menus",
-     *   summary="Get all menus",
-     *   operationId="GetAllMenu",
-     *   tags={"Menus"},
+     *   path="/categories",
+     *   summary="Get all menu categories",
+     *   operationId="GetAllMenuCategories",
+     *   tags={"Categories"},
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
      * )
@@ -27,19 +24,19 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return Menu::all();
+        return MenuCategory::all();
     }
 
     /**
      * @SWG\Post(
-     *   path="/menus",
-     *   summary="Save a menu",
-     *   operationId="SaveMenu",
-     *   tags={"Menus"},
+     *   path="/categories",
+     *   summary="Save a menu category",
+     *   operationId="SaveMenuCategory",
+     *   tags={"Categories"},
      *   @SWG\Parameter(
-     *     name="menu_category_id",
+     *     name="restaurant_id",
      *     in="formData",
-     *     description="which menu category",
+     *     description="which restaurant",
      *     required=true,
      *     type="string"
      *   ),
@@ -49,20 +46,6 @@ class MenuController extends Controller
      *     description="Menu name",
      *     required=true,
      *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="description",
-     *     in="formData",
-     *     description="description",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="price",
-     *     in="formData",
-     *     description="price of menu",
-     *     required=true,
-     *     type="number"
      *   ),
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -75,25 +58,23 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $menuCategory = MenuCategory::findOrFail($request->menu_category_id);
-        $newMenu = $menuCategory->menus()->create([
+        $restaurant = Restaurant::findOrFail($request->restaurant_id);
+        $newMenuCategory = $restaurant->menuCategories()->create([
                 'name' => $request->name,
-                'description' => $request->description,
-                'price' => $request->price
             ]);
-        return $newMenu;
+        return $newMenuCategory;
     }
 
     /**
      * @SWG\Get(
-     *   path="/menus/{menuId}",
-     *   summary="Get a menu",
-     *   operationId="GetMenu",
-     *   tags={"Menus"},
+     *   path="/categories/{categoryId}",
+     *   summary="Get a menu category",
+     *   operationId="GetMenuCategory",
+     *   tags={"Categories"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="categoryId",
      *     in="path",
-     *     description="Menu id",
+     *     description="Which Menu Category",
      *     required=true,
      *     type="integer"
      *   ),
@@ -108,43 +89,29 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        return Menu::find($id);
+        return MenuCategory::find($id);
     }
 
 
     /**
      * @SWG\Put(
-     *   path="/menus/{menuId}",
-     *   summary="Save a menu",
-     *   operationId="SaveMenu",
-     *   tags={"Menus"},
+     *   path="/categories/{categoryId}",
+     *   summary="Update a menu category",
+     *   operationId="UpdateMenuCategory",
+     *   tags={"Categories"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="categoryId",
      *     in="path",
-     *     description="Which Menu",
+     *     description="Which Menu Category",
      *     required=true,
      *     type="integer"
      *   ),
      *   @SWG\Parameter(
      *     name="name",
      *     in="formData",
-     *     description="Menu name",
+     *     description="Menu category name",
      *     required=true,
      *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="description",
-     *     in="formData",
-     *     description="description",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="price",
-     *     in="formData",
-     *     description="price of menu",
-     *     required=true,
-     *     type="number"
      *   ),
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -158,25 +125,23 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->name = $request->name;
-        $menu->description = $request->description;
-        $menu->price = $request->price;
-        $menu->save();
+        $menuCategory = MenuCategory::findOrFail($id);
+        $menuCategory->name = $request->name;
+        $menuCategory->save();
 
-        return $menu;
+        return $menuCategory;
     }
 
     /**
      * @SWG\Delete(
-     *   path="/menus/{menuId}",
-     *   summary="Delete a menu",
-     *   operationId="DeleteMenu",
-     *   tags={"Menus"},
+     *   path="/categories/{categoryId}",
+     *   summary="Delete a menu category",
+     *   operationId="DeleteMenuCategory",
+     *   tags={"Categories"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="categoryId",
      *     in="path",
-     *     description="which menu",
+     *     description="Which Menu Category",
      *     required=true,
      *     type="integer"
      *   ),
@@ -191,8 +156,8 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->delete();
+        $menuCategory = MenuCategory::findOrFail($id);
+        $menuCategory->delete();
 
         return;
     }

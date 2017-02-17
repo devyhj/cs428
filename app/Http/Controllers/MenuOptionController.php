@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\MenuOption;
 use App\Menu;
-use App\MenuCategory;
 
-
-
-class MenuController extends Controller
+class MenuOptionController extends Controller
 {
-
     /**
      * @SWG\Get(
-     *   path="/menus",
-     *   summary="Get all menus",
-     *   operationId="GetAllMenu",
-     *   tags={"Menus"},
+     *   path="/options",
+     *   summary="Get all menu options",
+     *   operationId="GetAllOptions",
+     *   tags={"Options"},
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
      * )
@@ -27,40 +24,41 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return Menu::all();
+        return MenuOption::all();
     }
+
 
     /**
      * @SWG\Post(
-     *   path="/menus",
-     *   summary="Save a menu",
-     *   operationId="SaveMenu",
-     *   tags={"Menus"},
+     *   path="/options",
+     *   summary="Save an option",
+     *   operationId="SaveOption",
+     *   tags={"Options"},
      *   @SWG\Parameter(
-     *     name="menu_category_id",
+     *     name="menu_id",
      *     in="formData",
-     *     description="which menu category",
+     *     description="which menu",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     name="name",
      *     in="formData",
-     *     description="Menu name",
+     *     description="Option name",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     name="description",
      *     in="formData",
-     *     description="description",
+     *     description="Option description",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     name="price",
      *     in="formData",
-     *     description="price of menu",
+     *     description="price of option",
      *     required=true,
      *     type="number"
      *   ),
@@ -75,31 +73,32 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $menuCategory = MenuCategory::findOrFail($request->menu_category_id);
-        $newMenu = $menuCategory->menus()->create([
+        $menu = Menu::findOrFail($request->menu_id);
+        $newMenuOption = $menu->menuOptions()->create([
                 'name' => $request->name,
                 'description' => $request->description,
-                'price' => $request->price
+                'additional_price' => $request->price,
             ]);
-        return $newMenu;
+        return $newMenuOption;
     }
 
     /**
      * @SWG\Get(
-     *   path="/menus/{menuId}",
-     *   summary="Get a menu",
-     *   operationId="GetMenu",
-     *   tags={"Menus"},
+     *   path="/options/{optionId}",
+     *   summary="Get an option",
+     *   operationId="GetOption",
+     *   tags={"Options"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="optionId",
      *     in="path",
-     *     description="Menu id",
+     *     description="Option id",
      *     required=true,
      *     type="integer"
      *   ),
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
      * )
+     *
      *
      * Display the specified resource.
      *
@@ -108,27 +107,26 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        return Menu::find($id);
+        return MenuOption::findOrFail($id);
     }
-
 
     /**
      * @SWG\Put(
-     *   path="/menus/{menuId}",
-     *   summary="Save a menu",
-     *   operationId="SaveMenu",
-     *   tags={"Menus"},
+     *   path="/options/{optionId}",
+     *   summary="Update option",
+     *   operationId="updateOption",
+     *   tags={"Options"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="optionId",
      *     in="path",
-     *     description="Which Menu",
+     *     description="Which Option",
      *     required=true,
      *     type="integer"
      *   ),
      *   @SWG\Parameter(
      *     name="name",
      *     in="formData",
-     *     description="Menu name",
+     *     description="Option name",
      *     required=true,
      *     type="string"
      *   ),
@@ -142,7 +140,7 @@ class MenuController extends Controller
      *   @SWG\Parameter(
      *     name="price",
      *     in="formData",
-     *     description="price of menu",
+     *     description="price of option",
      *     required=true,
      *     type="number"
      *   ),
@@ -158,25 +156,25 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->name = $request->name;
-        $menu->description = $request->description;
-        $menu->price = $request->price;
-        $menu->save();
+        $option = MenuOption::findOrFail($id);
+        $option->name = $request->name;
+        $option->description = $request->description;
+        $option->additional_price = $request->price;
+        $option->save();
 
-        return $menu;
+        return $option;
     }
 
     /**
      * @SWG\Delete(
-     *   path="/menus/{menuId}",
-     *   summary="Delete a menu",
-     *   operationId="DeleteMenu",
-     *   tags={"Menus"},
+     *   path="/options/{optionId}",
+     *   summary="Delete an option",
+     *   operationId="DeleteOption",
+     *   tags={"Options"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="optionId",
      *     in="path",
-     *     description="which menu",
+     *     description="Option id",
      *     required=true,
      *     type="integer"
      *   ),
@@ -191,9 +189,8 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->delete();
-
+        $thisOption = MenuOption::findOrFail($id);
+        $thisOption->delete();
         return;
     }
 }

@@ -28,4 +28,6 @@ $api->version('v1', [], function($api){
 	$api->resource('orders', 'App\Http\Controllers\OrderController', ['except' => ['update']]);
 	$api->resource('visits', 'App\Http\Controllers\VisitController');
 	$api->resource('messages', 'App\Http\Controllers\MessageController', ['except' => ['update']]);
+	$api->resource('options', 'App\Http\Controllers\MenuOptionController');
+	$api->resource('categories', 'App\Http\Controllers\MenuCategoryController');
 });
