@@ -108,15 +108,15 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        return Menu::find($id);
+        return Menu::with('menuOptions')->find($id);
     }
 
 
     /**
      * @SWG\Put(
      *   path="/menus/{menuId}",
-     *   summary="Save a menu",
-     *   operationId="SaveMenu",
+     *   summary="Update a menu",
+     *   operationId="UpdateMenu",
      *   tags={"Menus"},
      *   @SWG\Parameter(
      *     name="menuId",
