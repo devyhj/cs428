@@ -865,6 +865,32 @@
                 }
             }
         },
+        "/restaurants/menus/{restaurantId}": {
+            "get": {
+                "tags": [
+                    "Restaurants"
+                ],
+                "summary": "Get a Restaurant with menu",
+                "operationId": "GetRestaurantWithMenu",
+                "parameters": [
+                    {
+                        "name": "restaurantId",
+                        "in": "path",
+                        "description": "Restaurant id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": [

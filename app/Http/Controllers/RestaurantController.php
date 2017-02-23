@@ -249,4 +249,32 @@ class RestaurantController extends Controller
         $thisRestaurant->delete();
         return;
     }
+
+    /**
+     * @SWG\Get(
+     *   path="/restaurants/menus/{restaurantId}",
+     *   summary="Get a Restaurant with menu",
+     *   operationId="GetRestaurantWithMenu",
+     *   tags={"Restaurants"},
+     *   @SWG\Parameter(
+     *     name="restaurantId",
+     *     in="path",
+     *     description="Restaurant id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     *
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showWithMenus($restaurandId)
+    {
+        return Restaurant::with('menuCategories.menus.menuOptions')->where('id', $restaurandId)->first();
+    }
 }

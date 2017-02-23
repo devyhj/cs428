@@ -30,4 +30,6 @@ $api->version('v1', [], function($api){
 	$api->resource('messages', 'App\Http\Controllers\MessageController', ['except' => ['update']]);
 	$api->resource('options', 'App\Http\Controllers\MenuOptionController');
 	$api->resource('categories', 'App\Http\Controllers\MenuCategoryController');
+
+	$api->get('restaurants/menus/{restaurandId}', 'App\Http\Controllers\RestaurantController@showWithMenus');
 });
