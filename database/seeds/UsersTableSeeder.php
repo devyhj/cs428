@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
             $thisUser->name = $faker->name;
             $thisUser->email = $faker->unique()->email;
             $thisUser->password = bcrypt("123456");
+            $thisUser->api_token = str_random(60);
             $thisUser->save();
             $thisUser->roles()->attach($owner);
         }
@@ -34,6 +35,7 @@ class UsersTableSeeder extends Seeder
             $thisUser->name = $faker->name;
             $thisUser->email = $faker->unique()->email;
             $thisUser->password = bcrypt("123456");
+            $thisUser->api_token = str_random(60);
             $thisUser->save();
             $thisUser->roles()->attach($server);
         }
@@ -44,6 +46,7 @@ class UsersTableSeeder extends Seeder
             $thisUser->name = $faker->name;
             $thisUser->email = $faker->unique()->email;
             $thisUser->password = bcrypt("123456");
+            $thisUser->api_token = str_random(60);
             $thisUser->save();
             $thisUser->roles()->attach($customer);
         }

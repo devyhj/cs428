@@ -66,10 +66,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $api_token = '';
+        $duplicateCheck = 1;
+        while($duplicateCheck != 0) {
+            $api_token = str_random(60);
+            $duplicateCheck = User::where('api_token', $api_token)->count();
+        }
+
         return User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'api_token' => $api_token,
             ]);
     }
 

@@ -62,10 +62,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $api_token = '';
+        $duplicateCheck = 1;
+        while($duplicateCheck != 0) {
+            $api_token = str_random(60);
+            $duplicateCheck = User::where('api_token', $api_token)->count();
+        }
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'api_token' => $api_token,
         ]);
     }
 }
