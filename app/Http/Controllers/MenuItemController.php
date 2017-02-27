@@ -27,7 +27,7 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        return Menu::all();
+        return MenuItem::all();
     }
 
     /**
@@ -108,7 +108,7 @@ class MenuItemController extends Controller
      */
     public function show($id)
     {
-        return Menu::with('menuOptions')->find($id);
+        return MenuItem::with('menuOptions')->find($id);
     }
 
 
