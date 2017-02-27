@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Order;
 use App\Visit;
-use App\Menu;
+use App\MenuItem;
 
 class OrderController extends Controller
 {
@@ -57,9 +57,9 @@ class OrderController extends Controller
      *     type="number"
      *   ),
      *   @SWG\Parameter(
-     *     name="menu_id",
+     *     name="item_id",
      *     in="formData",
-     *     description="Menu Id",
+     *     description="Item Id",
      *     required=true,
      *     type="number"
      *   ),
@@ -75,13 +75,13 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $visit = Visit::findOrFail($request->visit_id);
-        $menu = Menu::findOrFail($request->menu_id);
+        $menuItem = MenuItem::findOrFail($request->menu_id);
         $order = new Order;
 
         $order->special_request = $request->special_request;
         $order->option_selected = $request->option_selected;
         $order->visit()->associate($visit);
-        $order->menu()->associate($menu);
+        $order->menuItem()->associate($menuItem);
 
         $order->save();
 

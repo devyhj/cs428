@@ -24,7 +24,7 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [], function($api){
 	$api->resource('users', 'App\Http\Controllers\UserController');
 	$api->resource('restaurants', 'App\Http\Controllers\RestaurantController');
-	$api->resource('menus', 'App\Http\Controllers\MenuController');
+	$api->resource('menu_items', 'App\Http\Controllers\MenuItemController');
 	$api->resource('orders', 'App\Http\Controllers\OrderController', ['except' => ['update']]);
 	$api->resource('visits', 'App\Http\Controllers\VisitController');
 	$api->resource('messages', 'App\Http\Controllers\MessageController', ['except' => ['update']]);

@@ -275,6 +275,6 @@ class RestaurantController extends Controller
      */
     public function showWithMenus($restaurandId)
     {
-        return Restaurant::with('menuCategories.menus.menuOptions')->where('id', $restaurandId)->first();
+        return Restaurant::with('menuCategories.menuItems.menuOptions')->where('id', $restaurandId)->first();
     }
 }

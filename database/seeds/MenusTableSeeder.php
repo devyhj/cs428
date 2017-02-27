@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\MenuCategory;
-use App\Menu;
+use App\MenuItem;
 
 class MenusTableSeeder extends Seeder
 {
@@ -20,7 +20,7 @@ class MenusTableSeeder extends Seeder
         {
         	for($i = 0; $i < 10; $i++)
         	{
-	        	$menucategory->menus()->create([
+	        	$menucategory->menuItems()->create([
 	        		'name' => $faker->word,
                     'description' => $faker->sentence,
                     'price' => $faker->randomFloat(2, 0, 30)

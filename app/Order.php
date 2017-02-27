@@ -13,8 +13,8 @@ class Order extends Model
         return $this->belongsTo('App\Visit');
     }
 
-    public function menu()
+    public function menuItem()
     {	
-        return $this->belongsTo('App\Menu');
+        return $this->belongsTo('App\MenuItem');
     }
 }

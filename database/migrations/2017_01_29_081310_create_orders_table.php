@@ -19,11 +19,11 @@ class CreateOrdersTable extends Migration
             $table->string('special_request')->nullable();
             $table->string('option_selected')->nullable();
             $table->integer('visit_id')->unsigned();
-            $table->integer('menu_id')->unsigned();
+            $table->integer('menu_item_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('visit_id')->references('id')->on('visits')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('menu_id')->references('id')->on('menus')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('menu_item_id')->references('id')->on('menu_items')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
