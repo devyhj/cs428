@@ -160,4 +160,32 @@ class VisitController extends Controller
         $thisVisit->delete();
         return;
     }
+
+    /**
+     * @SWG\Get(
+     *   path="/visits/total/{visitId}",
+     *   summary="Get a total orders for this visit",
+     *   operationId="GetVisitTotal",
+     *   tags={"Visits"},
+     *   @SWG\Parameter(
+     *     name="visitId",
+     *     in="path",
+     *     description="Visit id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     *
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getTotal($visitId)
+    {
+        return Visit::with('orders.menu')->findOrFail($visitId);
+    }
 }

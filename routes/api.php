@@ -31,5 +31,6 @@ $api->version('v1', [], function($api){
 	$api->resource('options', 'App\Http\Controllers\MenuOptionController');
 	$api->resource('categories', 'App\Http\Controllers\MenuCategoryController');
 
-	$api->get('restaurants/menus/{restaurandId}', 'App\Http\Controllers\RestaurantController@showWithMenus');
+	$api->get('restaurants/menus/{restaurantId}', 'App\Http\Controllers\RestaurantController@showWithMenus');
+	$api->get('visits/total/{visitId}', 'App\Http\Controllers\VisitController@getTotal');
 });

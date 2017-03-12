@@ -273,8 +273,8 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showWithMenus($restaurandId)
+    public function showWithMenus($restaurantId)
     {
-        return Restaurant::with('menuCategories.menus.menuOptions')->where('id', $restaurandId)->first();
+        return Restaurant::with('menuCategories.menus.menuOptions')->findOrFail($restaurandId);
     }
 }
