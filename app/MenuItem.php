@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Menu extends Model
+class MenuItem extends Model
 {
-    protected $table = 'menus';
+    protected $table = 'menu_items';
     protected $fillable = ['name', 'description', 'price'];
 
     public function menuCategory()

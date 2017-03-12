@@ -163,9 +163,9 @@ class VisitController extends Controller
 
     /**
      * @SWG\Get(
-     *   path="/visits/total/{visitId}",
-     *   summary="Get a total orders for this visit",
-     *   operationId="GetVisitTotal",
+     *   path="/visits/orers/{visitId}",
+     *   summary="Get orders for this visit",
+     *   operationId="GetVisitOrders",
      *   tags={"Visits"},
      *   @SWG\Parameter(
      *     name="visitId",
@@ -184,7 +184,7 @@ class VisitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getTotal($visitId)
+    public function getVisitOrders($visitId)
     {
         return Visit::with('orders.menu')->findOrFail($visitId);
     }

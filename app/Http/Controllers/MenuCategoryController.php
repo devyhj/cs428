@@ -89,7 +89,7 @@ class MenuCategoryController extends Controller
      */
     public function show($id)
     {
-        return MenuCategory::with('menus.menuOptions')->find($id);
+        return MenuCategory::with('menuItems.menuOptions')->find($id);
     }
 
 

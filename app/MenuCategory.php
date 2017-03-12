@@ -14,8 +14,8 @@ class MenuCategory extends Model
         return $this->belongsTo('App\Restaurant');
     }
 
-    public function menus()
+    public function menuItems()
     {
-    	return $this->hasMany('App\Menu');
+    	return $this->hasMany('App\MenuItem');
     }
 }

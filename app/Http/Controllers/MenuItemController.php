@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Menu;
+use App\MenuItem;
 use App\MenuCategory;
 
 
 
-class MenuController extends Controller
+class MenuItemController extends Controller
 {
 
     /**
      * @SWG\Get(
-     *   path="/menus",
-     *   summary="Get all menus",
-     *   operationId="GetAllMenu",
-     *   tags={"Menus"},
+     *   path="/menu_items",
+     *   summary="Get all menu items",
+     *   operationId="GetAllMenuItems",
+     *   tags={"MenuItems"},
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
      * )
@@ -27,15 +27,15 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return Menu::all();
+        return MenuItem::all();
     }
 
     /**
      * @SWG\Post(
-     *   path="/menus",
-     *   summary="Save a menu",
-     *   operationId="SaveMenu",
-     *   tags={"Menus"},
+     *   path="/menu_items",
+     *   summary="Save a menuItem",
+     *   operationId="SaveMenuItem",
+     *   tags={"MenuItems"},
      *   @SWG\Parameter(
      *     name="menu_category_id",
      *     in="formData",
@@ -46,7 +46,7 @@ class MenuController extends Controller
      *   @SWG\Parameter(
      *     name="name",
      *     in="formData",
-     *     description="Menu name",
+     *     description="MenuItem name",
      *     required=true,
      *     type="string"
      *   ),
@@ -60,7 +60,7 @@ class MenuController extends Controller
      *   @SWG\Parameter(
      *     name="price",
      *     in="formData",
-     *     description="price of menu",
+     *     description="price of item",
      *     required=true,
      *     type="number"
      *   ),
@@ -76,7 +76,7 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $menuCategory = MenuCategory::findOrFail($request->menu_category_id);
-        $newMenu = $menuCategory->menus()->create([
+        $newMenu = $menuCategory->menuItems()->create([
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price
@@ -86,14 +86,14 @@ class MenuController extends Controller
 
     /**
      * @SWG\Get(
-     *   path="/menus/{menuId}",
-     *   summary="Get a menu",
-     *   operationId="GetMenu",
-     *   tags={"Menus"},
+     *   path="/menu_items/{itemId}",
+     *   summary="Get a menu Item",
+     *   operationId="GetMenuItem",
+     *   tags={"MenuItems"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="itemId",
      *     in="path",
-     *     description="Menu id",
+     *     description="Menu Item id",
      *     required=true,
      *     type="integer"
      *   ),
@@ -108,20 +108,20 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        return Menu::with('menuOptions')->find($id);
+        return MenuItem::with('menuOptions')->find($id);
     }
 
 
     /**
      * @SWG\Put(
-     *   path="/menus/{menuId}",
-     *   summary="Update a menu",
-     *   operationId="UpdateMenu",
-     *   tags={"Menus"},
+     *   path="/menu_items/{itemId}",
+     *   summary="Update a menu item",
+     *   operationId="UpdateMenuItem",
+     *   tags={"MenuItems"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="itemId",
      *     in="path",
-     *     description="Which Menu",
+     *     description="Which Menu Item",
      *     required=true,
      *     type="integer"
      *   ),
@@ -142,7 +142,7 @@ class MenuController extends Controller
      *   @SWG\Parameter(
      *     name="price",
      *     in="formData",
-     *     description="price of menu",
+     *     description="price of menu item",
      *     required=true,
      *     type="number"
      *   ),
@@ -158,25 +158,25 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->name = $request->name;
-        $menu->description = $request->description;
-        $menu->price = $request->price;
-        $menu->save();
+        $menuItem = MenuItem::findOrFail($id);
+        $menuItem->name = $request->name;
+        $menuItem->description = $request->description;
+        $menuItem->price = $request->price;
+        $menuItem->save();
 
-        return $menu;
+        return $menuItem;
     }
 
     /**
      * @SWG\Delete(
-     *   path="/menus/{menuId}",
-     *   summary="Delete a menu",
-     *   operationId="DeleteMenu",
-     *   tags={"Menus"},
+     *   path="/menu_items/{itemId}",
+     *   summary="Delete a menu item",
+     *   operationId="DeleteMenuItem",
+     *   tags={"MenuItems"},
      *   @SWG\Parameter(
-     *     name="menuId",
+     *     name="itemId",
      *     in="path",
-     *     description="which menu",
+     *     description="which menu item",
      *     required=true,
      *     type="integer"
      *   ),
@@ -191,8 +191,8 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        $menu = Menu::findOrFail($id);
-        $menu->delete();
+        $menuItem = MenuItem::findOrFail($id);
+        $menuItem->delete();
 
         return;
     }
