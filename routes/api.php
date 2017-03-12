@@ -33,4 +33,6 @@ $api->version('v1', [], function($api){
 
 	$api->get('restaurants/menus/{restaurantId}', 'App\Http\Controllers\RestaurantController@showWithMenus');
 	$api->get('visits/total/{visitId}', 'App\Http\Controllers\VisitController@getTotal');
+
+	$api->post('login', 'App\Http\Controllers\Auth\LoginController@apiLogin');
 });

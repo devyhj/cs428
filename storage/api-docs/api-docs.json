@@ -13,6 +13,39 @@
         "http"
     ],
     "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API login request",
+                "operationId": "ApiLogin",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "login email address",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "login password",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
         "/categories": {
             "get": {
                 "tags": [
@@ -142,13 +175,13 @@
                 }
             }
         },
-        "/menus": {
+        "/menu_items": {
             "get": {
                 "tags": [
-                    "Menus"
+                    "MenuItems"
                 ],
-                "summary": "Get all menus",
-                "operationId": "GetAllMenu",
+                "summary": "Get all menu items",
+                "operationId": "GetAllMenuItems",
                 "responses": {
                     "200": {
                         "description": "successful operation"
@@ -160,10 +193,10 @@
             },
             "post": {
                 "tags": [
-                    "Menus"
+                    "MenuItems"
                 ],
-                "summary": "Save a menu",
-                "operationId": "SaveMenu",
+                "summary": "Save a menuItem",
+                "operationId": "SaveMenuItem",
                 "parameters": [
                     {
                         "name": "menu_category_id",
@@ -175,7 +208,7 @@
                     {
                         "name": "name",
                         "in": "formData",
-                        "description": "Menu name",
+                        "description": "MenuItem name",
                         "required": true,
                         "type": "string"
                     },
@@ -189,7 +222,7 @@
                     {
                         "name": "price",
                         "in": "formData",
-                        "description": "price of menu",
+                        "description": "price of item",
                         "required": true,
                         "type": "number"
                     }
@@ -204,18 +237,18 @@
                 }
             }
         },
-        "/menus/{menuId}": {
+        "/menu_items/{itemId}": {
             "get": {
                 "tags": [
-                    "Menus"
+                    "MenuItems"
                 ],
-                "summary": "Get a menu",
-                "operationId": "GetMenu",
+                "summary": "Get a menu Item",
+                "operationId": "GetMenuItem",
                 "parameters": [
                     {
-                        "name": "menuId",
+                        "name": "itemId",
                         "in": "path",
-                        "description": "Menu id",
+                        "description": "Menu Item id",
                         "required": true,
                         "type": "integer"
                     }
@@ -231,15 +264,15 @@
             },
             "put": {
                 "tags": [
-                    "Menus"
+                    "MenuItems"
                 ],
-                "summary": "Update a menu",
-                "operationId": "UpdateMenu",
+                "summary": "Update a menu item",
+                "operationId": "UpdateMenuItem",
                 "parameters": [
                     {
-                        "name": "menuId",
+                        "name": "itemId",
                         "in": "path",
-                        "description": "Which Menu",
+                        "description": "Which Menu Item",
                         "required": true,
                         "type": "integer"
                     },
@@ -260,7 +293,7 @@
                     {
                         "name": "price",
                         "in": "formData",
-                        "description": "price of menu",
+                        "description": "price of menu item",
                         "required": true,
                         "type": "number"
                     }
@@ -276,15 +309,15 @@
             },
             "delete": {
                 "tags": [
-                    "Menus"
+                    "MenuItems"
                 ],
-                "summary": "Delete a menu",
-                "operationId": "DeleteMenu",
+                "summary": "Delete a menu item",
+                "operationId": "DeleteMenuItem",
                 "parameters": [
                     {
-                        "name": "menuId",
+                        "name": "itemId",
                         "in": "path",
-                        "description": "which menu",
+                        "description": "which menu item",
                         "required": true,
                         "type": "integer"
                     }
@@ -599,9 +632,9 @@
                         "type": "number"
                     },
                     {
-                        "name": "menu_id",
+                        "name": "item_id",
                         "in": "formData",
-                        "description": "Menu Id",
+                        "description": "Item Id",
                         "required": true,
                         "type": "number"
                     }
@@ -1163,13 +1196,13 @@
                 }
             }
         },
-        "/visits/total/{visitId}": {
+        "/visits/orers/{visitId}": {
             "get": {
                 "tags": [
                     "Visits"
                 ],
-                "summary": "Get a total orders for this visit",
-                "operationId": "GetVisitTotal",
+                "summary": "Get orders for this visit",
+                "operationId": "GetVisitOrders",
                 "parameters": [
                     {
                         "name": "visitId",
