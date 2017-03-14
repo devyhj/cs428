@@ -118,6 +118,13 @@ class RestaurantController extends Controller
      *     required=true,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     description="API Token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response=200, description="successful operation"),
      *   @SWG\Response(response=500, description="internal server error")
      * )

@@ -796,6 +796,13 @@
                         "description": "Restaurant id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "API Token",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {

@@ -23,7 +23,6 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [], function($api){
 	$api->resource('users', 'App\Http\Controllers\UserController');
-	$api->resource('restaurants', 'App\Http\Controllers\RestaurantController');
 	$api->resource('menu_items', 'App\Http\Controllers\MenuItemController');
 	$api->resource('orders', 'App\Http\Controllers\OrderController', ['except' => ['update']]);
 	$api->resource('visits', 'App\Http\Controllers\VisitController');
@@ -35,4 +34,8 @@ $api->version('v1', [], function($api){
 	$api->get('visits/total/{visitId}', 'App\Http\Controllers\VisitController@getTotal');
 
 	$api->post('login', 'App\Http\Controllers\Auth\LoginController@apiLogin');
+});
+
+$api->version('v1', ['middleware' => 'auth:api'], function($api){
+	$api->resource('restaurants', 'App\Http\Controllers\RestaurantController');
 });
