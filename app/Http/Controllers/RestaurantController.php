@@ -310,6 +310,6 @@ class RestaurantController extends Controller
      */
     public function showWithMenus($restaurantId)
     {
-        return Restaurant::with('menuCategories.menus.menuOptions')->findOrFail($restaurantId);
+        return Restaurant::with('menuCategories.menuItems.menuOptions')->findOrFail($restaurantId);
     }
 }
