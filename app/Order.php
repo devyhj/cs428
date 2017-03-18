@@ -17,4 +17,9 @@ class Order extends Model
     {	
         return $this->belongsTo('App\MenuItem');
     }
+
+    public function options()
+    {	
+        return $this->belongsToMany('App\MenuOption', 'order_option', 'option_id', 'order_id');
+    }
 }

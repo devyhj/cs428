@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MenuItem;
 use App\MenuCategory;
+use Validator;
 
 
 
@@ -75,6 +76,19 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'menu_category_id' => 'required|exists:menu_categories,id',
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
         $menuCategory = MenuCategory::findOrFail($request->menu_category_id);
         $newMenu = $menuCategory->menuItems()->create([
                 'name' => $request->name,
@@ -158,6 +172,18 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
         $menuItem = MenuItem::findOrFail($id);
         $menuItem->name = $request->name;
         $menuItem->description = $request->description;

@@ -7,6 +7,7 @@ use App\Visit;
 use App\Restaurant;
 use App\User;
 use Carbon\Carbon;
+use Validator;
 
 class VisitController extends Controller
 {
@@ -61,6 +62,18 @@ class VisitController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'restaurant_id' => 'required|exists:restaurants,id',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $user = User::findOrFail($request->user_id);
         $restaurant = Restaurant::findOrFail($request->restaurant_id);
         $visit = new Visit;

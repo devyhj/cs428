@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MenuCategory;
 use App\Restaurant;
+use Validator;
 
 class MenuCategoryController extends Controller
 {
@@ -58,6 +59,17 @@ class MenuCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'restaurant_id' => 'required|exists:restaurants,id',
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
         $restaurant = Restaurant::findOrFail($request->restaurant_id);
         $newMenuCategory = $restaurant->menuCategories()->create([
                 'name' => $request->name,
@@ -125,6 +137,16 @@ class MenuCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
         $menuCategory = MenuCategory::findOrFail($id);
         $menuCategory->name = $request->name;
         $menuCategory->save();

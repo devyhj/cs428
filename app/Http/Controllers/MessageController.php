@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use App\Visit;
+use Validator;
 
 class MessageController extends Controller
 {
@@ -59,6 +60,18 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'visit_id' => 'required|exists:visits,id',
+            'text' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $visit = Visit::findOrFail($request->visit_id);
         return $visit->messages()->create([
                 'text' => $request->text,

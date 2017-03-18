@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Restaurant;
 use App\User;
+use Validator;
 
 class RestaurantController extends Controller
 {
@@ -101,6 +102,22 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'name' => 'required',
+            'address_line1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip_code' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $owner = User::findOrFail($request->user_id);
         return $owner->restaurants()->create([
                 'name' => $request->name,
@@ -231,6 +248,21 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'address_line1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip_code' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $thisRestaurant = Restaurant::findOrFail($id);
         $thisRestaurant->name = $request->name;
         $thisRestaurant->address_line1 = $request->address_line1;

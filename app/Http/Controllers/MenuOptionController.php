@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MenuOption;
 use App\Menu;
+use Validator;
 
 class MenuOptionController extends Controller
 {
@@ -73,6 +74,21 @@ class MenuOptionController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'menu_id' => 'required|exists:menus,id',
+            'name' => 'required',
+            'description' => 'required',
+            'additional_price' => 'numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
+
         $menu = Menu::findOrFail($request->menu_id);
         $newMenuOption = $menu->menuOptions()->create([
                 'name' => $request->name,
@@ -156,6 +172,19 @@ class MenuOptionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $option = MenuOption::findOrFail($id);
         $option->name = $request->name;
         $option->description = $request->description;

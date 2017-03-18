@@ -18,7 +18,7 @@ class CreateMenuOptionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->decimal('additional_price', 5, 2);
+            $table->decimal('additional_price', 5, 2)->default(0);
             $table->integer('menu_item_id')->unsigned();
             $table->timestamps();
             $table->foreign('menu_item_id')->references('id')->on('menu_items')->onUpdate('cascade')->onDelete('cascade');

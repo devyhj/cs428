@@ -770,6 +770,13 @@
                         "description": "owner's user Id",
                         "required": true,
                         "type": "number"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "API Token",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -869,6 +876,13 @@
                         "description": "Restaurant Id",
                         "required": true,
                         "type": "number"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "API Token",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -893,6 +907,13 @@
                         "description": "Restaurant id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "API Token",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -919,6 +940,13 @@
                         "description": "Restaurant id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "API Token",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {

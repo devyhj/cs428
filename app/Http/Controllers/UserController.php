@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Validator;
 
 class UserController extends Controller
 {
@@ -71,6 +72,19 @@ class UserController extends Controller
         while($duplicateCheck != 0) {
             $api_token = str_random(60);
             $duplicateCheck = User::where('api_token', $api_token)->count();
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|unique:users,email|email'
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
         }
 
         return User::create([
@@ -141,13 +155,6 @@ class UserController extends Controller
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     name="email",
-     *     in="formData",
-     *     description="email",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
      *     name="password",
      *     in="formData",
      *     description="password",
@@ -165,9 +172,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $thisUser = User::findOrFail($id);
         $thisUser->name = $request->name;
-        $thisUser->email = $request->email;
         $thisUser->password = bcrypt($request->password);
         $thisUser->save();
         return $thisUser;

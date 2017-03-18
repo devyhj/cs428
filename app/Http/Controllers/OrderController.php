@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Order;
 use App\Visit;
 use App\MenuItem;
+use Validator;
 
 class OrderController extends Controller
 {
@@ -43,13 +44,6 @@ class OrderController extends Controller
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     name="option_selected",
-     *     in="formData",
-     *     description="option description",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
      *     name="visit_id",
      *     in="formData",
      *     description="Visit Id",
@@ -74,12 +68,30 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'visit_id' => 'required|exists:visits,id',
+            'item_id' => 'required|exists:menu_items,id',
+            'options.*.option_id' => 'exists:menu_options,id',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+
         $visit = Visit::findOrFail($request->visit_id);
-        $menuItem = MenuItem::findOrFail($request->menu_id);
+        $menuItem = MenuItem::findOrFail($request->item_id);
         $order = new Order;
 
         $order->special_request = $request->special_request;
-        $order->option_selected = $request->option_selected;
+
+        if($request->options != null) {
+            foreach($request->options as $option) {
+                $order->options()->attach($option->option_id);
+            }
+        }
         $order->visit()->associate($visit);
         $order->menuItem()->associate($menuItem);
 
