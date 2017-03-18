@@ -618,13 +618,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "option_selected",
-                        "in": "formData",
-                        "description": "option description",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "visit_id",
                         "in": "formData",
                         "description": "Visit Id",
@@ -1057,13 +1050,6 @@
                         "name": "name",
                         "in": "formData",
                         "description": "User name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "email",
-                        "in": "formData",
-                        "description": "email",
                         "required": true,
                         "type": "string"
                     },
