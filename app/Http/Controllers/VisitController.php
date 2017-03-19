@@ -176,7 +176,7 @@ class VisitController extends Controller
 
     /**
      * @SWG\Get(
-     *   path="/visits/orers/{visitId}",
+     *   path="/visits/orders/{visitId}",
      *   summary="Get orders for this visit",
      *   operationId="GetVisitOrders",
      *   tags={"Visits"},
@@ -199,6 +199,6 @@ class VisitController extends Controller
      */
     public function getVisitOrders($visitId)
     {
-        return Visit::with('orders.menu')->findOrFail($visitId);
+        return Visit::with('orders.menuItem')->findOrFail($visitId);
     }
 }

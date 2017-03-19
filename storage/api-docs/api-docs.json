@@ -1217,7 +1217,7 @@
                 }
             }
         },
-        "/visits/orers/{visitId}": {
+        "/visits/orders/{visitId}": {
             "get": {
                 "tags": [
                     "Visits"
