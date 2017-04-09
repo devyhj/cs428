@@ -34,6 +34,7 @@ $api->version('v1', [], function($api){
 	$api->get('visits/orders/{visitId}', 'App\Http\Controllers\VisitController@getVisitOrders');
 
 	$api->post('login', 'App\Http\Controllers\Auth\LoginController@apiLogin');
+	// $api->post('orders/take', 'App\Http\Controllers\OrderController@takeOrders');
 });
 
 $api->version('v1', ['middleware' => 'auth:api'], function($api){

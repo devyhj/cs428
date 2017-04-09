@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $table = 'orders';
+    protected $fillable = ['special_request', 'menu_item_id'];
 
     public function visit()
     {	
@@ -20,6 +21,6 @@ class Order extends Model
 
     public function options()
     {	
-        return $this->belongsToMany('App\MenuOption', 'order_option', 'option_id', 'order_id');
+        return $this->belongsToMany('App\MenuOption', 'order_option', 'order_id', 'option_id');
     }
 }

@@ -611,25 +611,14 @@
                 "operationId": "SaveOrder",
                 "parameters": [
                     {
-                        "name": "special_request",
-                        "in": "formData",
+                        "name": "body",
+                        "in": "body",
                         "description": "message context",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "visit_id",
-                        "in": "formData",
-                        "description": "Visit Id",
-                        "required": true,
-                        "type": "number"
-                    },
-                    {
-                        "name": "item_id",
-                        "in": "formData",
-                        "description": "Item Id",
-                        "required": true,
-                        "type": "number"
+                        "schema": {
+                            "$ref": "$/definitions/orders"
+                        },
+                        "type": "body"
                     }
                 ],
                 "responses": {

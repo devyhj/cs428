@@ -26,79 +26,55 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Order::all();
+        return Order::with('menuItem', 'options')->get();
     }
 
 
-    /**
-     * @SWG\Post(
-     *   path="/orders",
-     *   summary="Save an order",
-     *   operationId="SaveOrder",
-     *   tags={"Orders"},
-     *   @SWG\Parameter(
-     *     name="special_request",
-     *     in="formData",
-     *     description="message context",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="visit_id",
-     *     in="formData",
-     *     description="Visit Id",
-     *     required=true,
-     *     type="number"
-     *   ),
-     *   @SWG\Parameter(
-     *     name="item_id",
-     *     in="formData",
-     *     description="Item Id",
-     *     required=true,
-     *     type="number"
-     *   ),
-     *   @SWG\Response(response=200, description="successful operation"),
-     *   @SWG\Response(response=500, description="internal server error")
-     * )
-     *
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'visit_id' => 'required|exists:visits,id',
-            'item_id' => 'required|exists:menu_items,id',
-            'options.*.option_id' => 'exists:menu_options,id',
-        ]);
 
-        if ($validator->fails()) {
-            return [
-                'message' => 'Input validation failed',
-                'errors' => $validator->errors()
-            ];
-        }
+    // public function store(Request $request)
+    // {
+    //     return $request->all();
+    //     $validator = Validator::make($request->all(), [
+    //         'visit_id' => 'required|exists:visits,id',
+    //         'item_id' => 'required|exists:menu_items,id',
+    //         'options.*.option_id' => 'exists:menu_options,id',
+    //     ]);
 
-        $visit = Visit::findOrFail($request->visit_id);
-        $menuItem = MenuItem::findOrFail($request->item_id);
-        $order = new Order;
+    //     if ($validator->fails()) {
+    //         return [
+    //             'message' => 'Input validation failed',
+    //             'errors' => $validator->errors()
+    //         ];
+    //     }
 
-        $order->special_request = $request->special_request;
+    //     $visit = Visit::findOrFail($request->visit_id);
+    //     $menuItem = MenuItem::findOrFail($request->item_id);
 
-        if($request->options != null) {
-            foreach($request->options as $option) {
-                $order->options()->attach($option->option_id);
-            }
-        }
-        $order->visit()->associate($visit);
-        $order->menuItem()->associate($menuItem);
+    //     foreach($rquest->options as $option) {
+    //         if($option->menu_item_id != $request->item_id) {
+    //             return [
+    //                 'message' => 'Option not valid for menu item',
+    //                 'errors' => $option->name.' is not valid option for '.$menuItem->name
+    //             ];
+    //         }
+    //     }
 
-        $order->save();
+    //     $order = new Order;
 
-        return $order;
-    }
+    //     $order->special_request = $request->special_request;
+
+    //     if($request->options != null) {
+    //         foreach($request->options as $option) {
+    //             $order->options()->attach($option->option_id);
+    //         }
+    //     }
+    //     $order->visit()->associate($visit);
+    //     $order->menuItem()->associate($menuItem);
+
+    //     $order->save();
+
+    //     return $order;
+    // }
 
     /**
      * @SWG\Get(
@@ -125,7 +101,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return Order::findOrFail($id);
+        return Order::with('menuItem', 'options')->findOrFail($id);
     }
 
     /**
@@ -155,5 +131,57 @@ class OrderController extends Controller
         $thisOrder = Order::findOrFail($id);
         $thisOrder->delete();
         return;
+    }
+
+     /**
+     * @SWG\Post(
+     *   path="/orders",
+     *   summary="Save an order",
+     *   operationId="SaveOrder",
+     *   tags={"Orders"},
+     *   @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     description="message context",
+     *     @SWG\Schema(ref="$/definitions/orders"),
+     *     required=true,
+     *     type="body"
+     *   ),
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'visit_id' => 'required|exists:visits,id',
+            'orders.*.menu_item_id' => 'required|exists:menu_items,id',
+            'orders.*.menu_option_id.*' => 'exists:menu_options,id',
+            'orders.*.quantity' => 'required|Integer',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'message' => 'Input validation failed',
+                'errors' => $validator->errors()
+            ];
+        }
+        // dd($request->all());
+        $visit = Visit::find($request->visit_id);
+        foreach($request->orders as $order) {
+            for($i = 0; $i < $order['quantity']; $i++) {
+                $newOrder = new Order;
+                $newOrder->special_request = $order['special_request'];
+                $newOrder->menu_item_id = $order['menu_item_id'];
+                $visit->orders()->save($newOrder);
+                $newOrder->options()->attach($order['menu_option_id']);
+            }
+        }
     }
 }

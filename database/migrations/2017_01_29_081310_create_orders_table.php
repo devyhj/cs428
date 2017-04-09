@@ -17,7 +17,6 @@ class CreateOrdersTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('special_request')->nullable();
-            $table->string('option_selected')->nullable();
             $table->integer('visit_id')->unsigned();
             $table->integer('menu_item_id')->unsigned();
             $table->timestamps();

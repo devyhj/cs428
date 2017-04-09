@@ -25,7 +25,6 @@ class OrdersTableSeeder extends Seeder
 	        	$thisMenu = $availableMenu->random();
 	        	$thisOrder = new Order;
 	        	$thisOrder->special_request = $faker->sentence;
-	        	$thisOrder->option_selected = $faker->word;
 	        	$thisOrder->visit()->associate($visit);
 	        	$thisOrder->menuItem()->associate($thisMenu);
 	        	$thisOrder->save();
