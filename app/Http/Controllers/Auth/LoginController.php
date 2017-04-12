@@ -101,6 +101,7 @@ class LoginController extends Controller
 
         return response()->json([
             'result' => 'success',
+            'user' => Auth::user()->load('restaurants'),
             'token' => Auth::user()->api_token
         ]);
     }
